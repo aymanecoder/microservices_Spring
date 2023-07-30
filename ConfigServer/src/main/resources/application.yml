@@ -10,3 +10,4 @@ spring:
         git:
           uri: https://github.com/aymanecoder/microservice-config-server
           clone-on-start: true
+

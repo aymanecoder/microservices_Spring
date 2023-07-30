@@ -1,6 +1,5 @@
 server:
   port: 8084
-
 spring:
   application:
     name: API-GATEWAY
@@ -22,13 +21,17 @@ spring:
           predicates:
             - Path=/ratings/**
 
+#eureka:
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#
+#  instance:
+#    prefer-ip-address: true
 
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-  instance:
-    prefer-ip-address: true
+#management:
+#  tracing:
+#    sampling:
+#      probability: 1.0

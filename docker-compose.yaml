@@ -40,10 +40,18 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
-
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - zipkin
 
 networks:
   postgres:
+    driver: bridge
+  zipkin:
     driver: bridge
 
 volumes:
