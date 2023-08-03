@@ -4,6 +4,7 @@ package com.virus7x.user.service.controllers;
 import com.virus7x.user.service.entities.User;
 import com.virus7x.user.service.services.UserService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,17 +27,25 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user1);
 //        return new ResponseEntity<>(user1, HttpStatus.CREATED);
     }
-
+    int retryCount =1;
     @GetMapping("/{userId}")
-    @CircuitBreaker(name ="ratingHotelBreaker",fallbackMethod = "ratingHotelFallback")
+//    @CircuitBreaker(name ="ratingHotelBreaker",fallbackMethod = "ratingHotelFallback")
+    @Retry(name= "ratingHotelBreaker",fallbackMethod = "ratingHotelFallback")
     public ResponseEntity<User> getSingleUser(@PathVariable String userId){
+        log.info("Retry count: {}", retryCount);
+        retryCount++;
         User user = userService.getUser(userId);
         return ResponseEntity.ok(user);
     }
 
+
+
+
     public ResponseEntity<User> ratingHotelFallback(String userId, Exception ex){
-        log.info("Fallback is executed because the service is down:",ex.getMessage());
-        User user = User.builder().email("aymane@gmail.com").name("aymane").about("this user created aymane because some service down")
+//        log.info("Fallback is executed because the service is down:",ex.getMessage());
+
+        User user = User.builder().email("aymane@gmail.com").name("aymane").about("this " +
+                        "user created aymane because some service down")
                 .userId("12345")
                 .build();
         return new ResponseEntity<>(user,HttpStatus.OK);
