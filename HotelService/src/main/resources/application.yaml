@@ -24,3 +24,8 @@ management:
   tracing:
     sampling:
       probability: 1.0
+
+okta:
+  oauth2:
+    issuer: https://dev-36008585.okta.com/oauth2/default
+    audience: api/default
