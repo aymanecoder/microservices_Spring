@@ -17,6 +17,22 @@ spring:
 
   config:
     import: optional:configserver:http://localhost:8085
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-36008585.okta.com/oauth2/default
+        client:
+          registration:
+            my-internal-client:
+              provider: okta
+              authorization-grant-type: client-credentials
+              scope: internal
+              client-id: 0oaaownk96zgNO5tq5d7
+              client-secret: Vogqfvd_N-lNNhEjl9IDFUy7rG7G0ca1NPhQMd3P877pQ7QjLfLUHzdYHo4KuvlI
+          provider:
+            okta:
+              issuer-uri: https://dev-36008585.okta.com/oauth2/default
 #  zipkin:
 #    baseUrl: http://localhost:9411
 #  profiles:
@@ -77,7 +93,12 @@ resilience4j:
     instances:
       userRateLimiter:
         limit-for-period: 2
-        limit-refresh-period:
-          seconds: 4
-        timeout-duration:
-          seconds: 0
+        limit-refresh-period: 4
+
+        timeout-duration: 0
+
+okta:
+  oauth2:
+    issuer: https://dev-36008585.okta.com/oauth2/default
+    audience: api/default
+
